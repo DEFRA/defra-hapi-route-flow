@@ -1,4 +1,5 @@
 const { RouteFlowEngine } = require('route-flow-engine')
+const pkg = require('./package.json')
 
 const register = async (server, { flowConfig: config, handlersDir }) => {
   const createRoutes = async (node) => {
@@ -43,8 +44,8 @@ const register = async (server, { flowConfig: config, handlersDir }) => {
 }
 
 exports.plugin = {
-  name: 'defra-hapi-route-flow',
+  name: pkg.name,
   register,
   once: true,
-  pkg: require('./package.json')
+  pkg
 }

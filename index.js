@@ -6,6 +6,8 @@ const register = async (server, { flowConfig: config, handlersDir }) => {
     const Handlers = require(`${handlersDir}/${node.handlers}`)
     const handlers = node.handlers = new Handlers()
 
+    handlers.server = server
+
     if (handlers.getPayload) {
       handlers.payload = await handlers.getPayload()
     }

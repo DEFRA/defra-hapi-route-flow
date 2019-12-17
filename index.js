@@ -2,11 +2,13 @@ const { RouteFlowEngine } = require('route-flow-engine')
 const pkg = require('./package.json')
 
 const register = async (server, { flowConfig: config, handlersDir }) => {
+  server.app.flow = async (routeId) => RouteFlowEngine.flow(routeId)
+
   const createRoutes = async (node) => {
     const Handlers = require(`${handlersDir}/${node.handlers}`)
-    const handlers = node.handlers = new Handlers()
+    Handlers.server = server
 
-    handlers.server = server
+    const handlers = node.handlers = new Handlers()
 
     if (handlers.getPayload) {
       handlers.payload = await handlers.getPayload()
@@ -42,8 +44,7 @@ const register = async (server, { flowConfig: config, handlersDir }) => {
     return routes.handlers[query](...args)
   }
 
-  // Save a reference to the routeFlow on the server app
-  server.app.routeFlow = new RouteFlowEngine({ config, createRoutes, resolveQuery })
+  return new RouteFlowEngine({ config, createRoutes, resolveQuery })
 }
 
 exports.plugin = {

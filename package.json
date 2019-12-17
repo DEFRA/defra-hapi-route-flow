@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/ajaxscape/defra-hapi-route-flow#readme",
   "dependencies": {
-    "route-flow-engine": "git+https://github.com/ajaxscape/route-flow-engine.git#master",
+    "route-flow-engine": "^0.2.0",
     "defra-hapi-handlers": "git+https://github.com/DEFRA/defra-hapi-handlers.git#master"
   },
   "devDependencies": {

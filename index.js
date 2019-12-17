@@ -50,4 +50,5 @@ exports.plugin = {
   pkg
 }
 
-exports.flow = RouteFlowEngine.flow
+// returns global reference to RouteFlowEngine
+exports.RouteFlowEngine = RouteFlowEngine

@@ -1,0 +1,42 @@
+{
+  "name": "defra-hapi-route-flow",
+  "version": "0.1.0",
+  "description": "Hapi plugin to deal with the flow between pages and states",
+  "author": "Department for Environment, Food & Rural Affairs",
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "index.js",
+  "engines": {
+    "node": "10.x"
+  },
+  "scripts": {
+    "lint": "./node_modules/.bin/standard",
+    "unit-test": "./node_modules/.bin/lab --coverage --reporter console --output stdout --reporter lcov --output lcov.info --reporter html --output coverage.html --verbose",
+    "test": "npm run lint && npm run unit-test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajaxscape/defra-hapi-route-flow.git"
+  },
+  "keywords": [
+    "defra",
+    "hapi",
+    "plugin",
+    "route",
+    "flow"
+  ],
+  "bugs": {
+    "url": "https://github.com/ajaxscape/defra-hapi-route-flow/issues"
+  },
+  "homepage": "https://github.com/ajaxscape/defra-hapi-route-flow#readme",
+  "dependencies": {
+    "route-flow-engine": "git+https://github.com/ajaxscape/route-flow-engine.git#master"
+  },
+  "devDependencies": {
+    "@hapi/code": "^7.0.0",
+    "@hapi/lab": "^21.0.0",
+    "codeclimate-test-reporter": "0.5.1",
+    "eslint": "^6.7.2",
+    "sinon": "^7.5.0",
+    "standard": "^14.3.1"
+  }
+}

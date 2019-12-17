@@ -1,0 +1,7 @@
+# WebStorm users
+.idea
+.vscode
+
+node_modules
+coverage.html
+lcov.info

@@ -40,7 +40,8 @@ const register = async (server, { flowConfig: config, handlersDir }) => {
     return routes.handlers[query](...args)
   }
 
-  return new RouteFlowEngine({ config, createRoutes, resolveQuery })
+  // Save a reference to the routeFlow on the server app
+  server.app.routeFlow = new RouteFlowEngine({ config, createRoutes, resolveQuery })
 }
 
 exports.plugin = {
@@ -49,6 +50,3 @@ exports.plugin = {
   once: true,
   pkg
 }
-
-// returns global reference to RouteFlowEngine
-exports.RouteFlowEngine = RouteFlowEngine

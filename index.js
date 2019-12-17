@@ -49,3 +49,5 @@ exports.plugin = {
   once: true,
   pkg
 }
+
+exports.flow = RouteFlowEngine.flow

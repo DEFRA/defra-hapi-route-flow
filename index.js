@@ -37,18 +37,22 @@ class Flow {
 
     routes.forEach((route) => server.route(route))
   }
+
+  static async resolveQuery (routes, query, ...args) {
+    return routes.handlers[query](...args)
+  }
+
+  static get RouteFlowEngine () {
+    return RouteFlowEngine
+  }
 }
 
 const register = async (server, { flowConfig: config, handlersDir }) => {
   server.app.flow = async (routeId) => RouteFlowEngine.flow(routeId)
 
-  const resolveQuery = async (routes, query, ...args) => {
-    return routes.handlers[query](...args)
-  }
+  const resolveQuery = async (...args) => Flow.resolveQuery(...args)
 
-  const createRoutes = async (node) => {
-    return Flow.createRoutes(node, server, handlersDir)
-  }
+  const createRoutes = async (node) => Flow.createRoutes(node, server, handlersDir)
 
   return new RouteFlowEngine({ config, createRoutes, resolveQuery })
 }
@@ -60,4 +64,5 @@ exports.plugin = {
   pkg
 }
 
+// Expose Flow through test object to aid unit testing
 exports.test = { Flow }

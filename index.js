@@ -1,40 +1,42 @@
 const { RouteFlowEngine } = require('route-flow-engine')
 const pkg = require('./package.json')
 
-const createRoutes = async (node, server, handlersDir) => {
-  const Handlers = require(`${handlersDir}/${node.handlers}`)
-  Handlers.server = server
+class Flow {
+  static async createRoutes (node, server, handlersDir) {
+    const Handlers = require(`${handlersDir}/${node.handlers}`)
+    Handlers.server = server
 
-  const handlers = node.handlers = new Handlers()
+    const handlers = node.handlers = new Handlers()
 
-  if (handlers.getPayload) {
-    handlers.payload = await handlers.getPayload()
-  }
-
-  if (node.next) {
-    handlers.getNextPath = async (...args) => {
-      const nextNode = await node.next(...args)
-      return nextNode.path
+    if (handlers.getPayload) {
+      handlers.payload = await handlers.getPayload()
     }
-  }
 
-  if (node.title) {
-    handlers.getPageHeading = async (...args) => {
-      return node.title(...args)
+    if (node.next) {
+      handlers.getNextPath = async (...args) => {
+        const nextNode = await node.next(...args)
+        return nextNode.path
+      }
     }
-  }
 
-  const { path, isQuestionPage = false, view, tags = [] } = node
-  const routes = handlers.routes({
-    path,
-    app: {
-      view,
-      isQuestionPage,
-      tags
+    if (node.title) {
+      handlers.getPageHeading = async (...args) => {
+        return node.title(...args)
+      }
     }
-  })
 
-  routes.forEach((route) => server.route(route))
+    const { path, isQuestionPage = false, view, tags = [] } = node
+    const routes = handlers.routes({
+      path,
+      app: {
+        view,
+        isQuestionPage,
+        tags
+      }
+    })
+
+    routes.forEach((route) => server.route(route))
+  }
 }
 
 const register = async (server, { flowConfig: config, handlersDir }) => {
@@ -44,11 +46,11 @@ const register = async (server, { flowConfig: config, handlersDir }) => {
     return routes.handlers[query](...args)
   }
 
-  const _createRoutes = async (node) => {
-    return createRoutes(node, server, handlersDir)
+  const createRoutes = async (node) => {
+    return Flow.createRoutes(node, server, handlersDir)
   }
 
-  return new RouteFlowEngine({ config, _createRoutes, resolveQuery })
+  return new RouteFlowEngine({ config, createRoutes, resolveQuery })
 }
 
 exports.plugin = {
@@ -58,4 +60,4 @@ exports.plugin = {
   pkg
 }
 
-exports.test = { createRoutes }
+exports.test = { Flow }

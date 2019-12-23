@@ -22,7 +22,13 @@ class Flow {
       }
 
       async getPageHeading (...args) {
-        return node.title(...args)
+        if (node.title) {
+          return node.title(...args)
+        } else if (super.getPageHeading) {
+          return super.getPageHeading(...args)
+        } else {
+          return node.title
+        }
       }
     }
 

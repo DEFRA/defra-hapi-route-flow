@@ -8,6 +8,12 @@ class Flow {
 
     const handlers = node.handlers = new Handlers()
 
+    handlers.flowNode = node
+
+    handlers.getflowNode = async (nodeId) => {
+      return server.app.flow(nodeId)
+    }
+
     if (handlers.getPayload) {
       handlers.payload = await handlers.getPayload()
     }

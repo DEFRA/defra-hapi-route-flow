@@ -30,6 +30,16 @@ class Flow {
           return node.title
         }
       }
+
+      async getBreadcrumbs (...args) {
+        if (typeof node.breadcrumbs === 'function') {
+          return node.breadcrumbs(...args)
+        } else if (typeof super.getBreadcrumbs === 'function') {
+          return super.getBreadcrumbs(...args)
+        } else {
+          return node.breadcrumbs
+        }
+      }
     }
 
     const handlers = node.handlers = new Handlers()

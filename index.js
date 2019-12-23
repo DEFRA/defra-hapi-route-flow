@@ -4,15 +4,6 @@ const pkg = require('./package.json')
 class Flow {
   static async createRoutes (node, server, handlersDir) {
     class Handlers extends require(`${handlersDir}/${node.handlers}`) {
-      constructor (...args) {
-        super(...args)
-        if (this.getPayload) {
-          this.getPayload().then((payload) => {
-            this.payload = payload
-          })
-        }
-      }
-
       static get server () {
         return server
       }
@@ -36,6 +27,10 @@ class Flow {
     }
 
     const handlers = node.handlers = new Handlers()
+
+    if (handlers.getPayload) {
+      handlers.payload = await handlers.getPayload()
+    }
 
     const { path, isQuestionPage = false, view, tags = [] } = node
     const routes = handlers.routes({

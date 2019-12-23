@@ -10,7 +10,7 @@ class Flow {
 
     handlers.flowNode = node
 
-    handlers.getflowNode = async (nodeId) => {
+    handlers.getFlowNode = async (nodeId) => {
       return server.app.flow(nodeId)
     }
 

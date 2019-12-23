@@ -3,33 +3,39 @@ const pkg = require('./package.json')
 
 class Flow {
   static async createRoutes (node, server, handlersDir) {
-    const Handlers = require(`${handlersDir}/${node.handlers}`)
-    Handlers.server = server
+    class Handlers extends require(`${handlersDir}/${node.handlers}`) {
+      constructor (...args) {
+        super(...args)
+        if (this.getPayload) {
+          this.getPayload().then((payload) => {
+            this.payload = payload
+          })
+        }
+      }
 
-    const handlers = node.handlers = new Handlers()
+      static get server () {
+        return server
+      }
 
-    handlers.flowNode = node
+      get flowNode () {
+        return node
+      }
 
-    handlers.getFlowNode = async (nodeId) => {
-      return server.app.flow(nodeId)
-    }
+      async getFlowNode (nodeId) {
+        return server.app.flow(nodeId)
+      }
 
-    if (handlers.getPayload) {
-      handlers.payload = await handlers.getPayload()
-    }
-
-    if (node.next) {
-      handlers.getNextPath = async (...args) => {
+      async getNextPath (...args) {
         const nextNode = await node.next(...args)
         return nextNode.path
       }
-    }
 
-    if (node.title) {
-      handlers.getPageHeading = async (...args) => {
+      async getPageHeading (...args) {
         return node.title(...args)
       }
     }
+
+    const handlers = node.handlers = new Handlers()
 
     const { path, isQuestionPage = false, view, tags = [] } = node
     const routes = handlers.routes({

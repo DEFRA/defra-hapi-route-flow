@@ -30,32 +30,6 @@ class Flow {
           return node.title
         }
       }
-
-      async getBreadcrumbs (...args) {
-        let breadcrumbs = []
-        if (typeof node.breadcrumbs === 'function') {
-          breadcrumbs = await node.breadcrumbs(...args)
-        } else if (typeof super.getBreadcrumbs === 'function') {
-          return super.getBreadcrumbs(...args)
-        } else {
-          breadcrumbs = node.breadcrumbs
-        }
-        return Promise.all(
-          breadcrumbs
-            .split('::')
-            .map(async (nodeId) => {
-              const node = await this.getFlowNode(nodeId)
-              console.log(node)
-              return {
-                text: 'Cheese',
-                href: '/fred'
-              }
-            })
-            .concat([
-              { text: await this.getPageHeading() }
-            ])
-        )
-      }
     }
 
     const handlers = node.handlers = new Handlers()

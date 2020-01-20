@@ -1,6 +1,6 @@
 {
   "name": "defra-hapi-route-flow",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Hapi plugin to deal with the flow between pages and states",
   "author": "Department for Environment, Food & Rural Affairs",
   "license": "SEE LICENSE IN LICENSE",
@@ -29,12 +29,12 @@
   },
   "homepage": "https://github.com/ajaxscape/defra-hapi-route-flow#readme",
   "dependencies": {
-    "defra-hapi-handlers": "git+https://github.com/DEFRA/defra-hapi-handlers.git#v0.1.5",
+    "defra-hapi-handlers": "git+https://github.com/DEFRA/defra-hapi-handlers.git#v0.1.6",
     "route-flow-engine": "^0.2.0"
   },
   "devDependencies": {
-    "@hapi/code": "^7.0.0",
-    "@hapi/lab": "^21.0.0",
+    "@hapi/code": "^8.0.1",
+    "@hapi/lab": "^22.0.3",
     "codeclimate-test-reporter": "0.5.1",
     "eslint": "^6.8.0",
     "sinon": "^8.1.0",
